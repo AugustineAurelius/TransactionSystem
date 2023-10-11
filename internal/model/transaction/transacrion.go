@@ -12,8 +12,17 @@ type Transaction struct {
 	Type   string  `json:"Type"`
 }
 
-func TransactionFactory(user1ID int, user2ID int, amount float64) *Transaction {
+func TransactionFactory(Type string, user1ID int, user2ID int, amount float64) *Transaction {
+	if Type == "FromTo" {
+		return newBasicTransaction(user1ID, user2ID, amount)
+	} else if Type == "Exchange" {
+		return newExchangeTransaction(user1ID, amount)
+	} else {
+		return newReceiveTransaction(user2ID, amount)
+	}
 
+}
+func newBasicTransaction(user1ID int, user2ID int, amount float64) *Transaction {
 	return &Transaction{
 		ID:     rand.Intn(100000000),
 		From:   user1ID,
@@ -22,7 +31,7 @@ func TransactionFactory(user1ID int, user2ID int, amount float64) *Transaction {
 		Type:   "FromTo",
 	}
 }
-func TransactionFactoryExchange(userID int, amount float64) *Transaction {
+func newExchangeTransaction(userID int, amount float64) *Transaction {
 
 	return &Transaction{
 		ID:     rand.Intn(100000000),
@@ -31,7 +40,7 @@ func TransactionFactoryExchange(userID int, amount float64) *Transaction {
 		Type:   "Exchange",
 	}
 }
-func TransactionFactoryReceive(userID int, amount float64) *Transaction {
+func newReceiveTransaction(userID int, amount float64) *Transaction {
 
 	return &Transaction{
 		ID:     rand.Intn(100000000),

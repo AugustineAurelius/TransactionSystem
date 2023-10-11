@@ -41,9 +41,9 @@ func (v *Validator) DoValidate() error {
 			return fmt.Errorf("cannot marshal transaction from cache")
 		}
 
-		user1 := new(user.User)
-		user2 := new(user.User)
 		if trans.Type == "FromTo" {
+			user1 := new(user.User)
+			user2 := new(user.User)
 			connection.DB.First(&user1, trans.From)
 			connection.DB.First(&user2, trans.To)
 			err = v.MoveMoney(user1, user2, trans.Amount)
@@ -51,15 +51,16 @@ func (v *Validator) DoValidate() error {
 				return fmt.Errorf("cannot move money %w", err)
 			}
 		} else if trans.Type == "Exchange" {
-			connection.DB.First(&user1, trans.From)
-			err = v.MoveMoneyToExchanger(user1, trans.Amount)
+			user := new(user.User)
+			connection.DB.First(&user, trans.From)
+			err = v.MoveMoneyToExchanger(user, trans.Amount)
 			if err != nil {
 				return fmt.Errorf("cannot move money %w", err)
 			}
 		} else {
-
-			connection.DB.First(&user2, trans.To)
-			err = v.MoveMoneyReceive(user2, trans.Amount)
+			user := new(user.User)
+			connection.DB.First(&user, trans.To)
+			err = v.MoveMoneyReceive(user, trans.Amount)
 			if err != nil {
 				return fmt.Errorf("cannot move money %w", err)
 			}

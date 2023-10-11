@@ -33,7 +33,7 @@ func SendHandler(c *fiber.Ctx) error {
 		return fmt.Errorf("cannot parse user2 id %w", err)
 	}
 
-	trans := transaction.TransactionFactory(parseInt1, parseInt2, float)
+	trans := transaction.TransactionFactory("FromTo", parseInt1, parseInt2, float)
 
 	marshal, err := json.Marshal(trans)
 

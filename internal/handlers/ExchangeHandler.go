@@ -21,12 +21,12 @@ func ExchangeHandler(c *fiber.Ctx) error {
 		return fmt.Errorf("cannot parse float %w", err)
 	}
 
-	parseInt, err := strconv.Atoi(IdUser)
+	UserID, err := strconv.Atoi(IdUser)
 	if err != nil {
 		return fmt.Errorf("cannot parse user1 id %w", err)
 	}
 
-	trans := transaction.TransactionFactoryExchange(parseInt, float)
+	trans := transaction.TransactionFactory("Exchange", UserID, 0, float)
 
 	marshal, err := json.Marshal(trans)
 

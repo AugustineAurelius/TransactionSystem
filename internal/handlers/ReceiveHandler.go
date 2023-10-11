@@ -21,12 +21,12 @@ func ReceiveHandler(c *fiber.Ctx) error {
 		return fmt.Errorf("cannot parse float %w", err)
 	}
 
-	parseInt, err := strconv.Atoi(IdUser)
+	UserID, err := strconv.Atoi(IdUser)
 	if err != nil {
 		return fmt.Errorf("cannot parse user1 id %w", err)
 	}
 
-	trans := transaction.TransactionFactoryReceive(parseInt, float)
+	trans := transaction.TransactionFactory("Receive", 0, UserID, float)
 
 	marshal, err := json.Marshal(trans)
 
